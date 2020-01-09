@@ -12,8 +12,8 @@ module.exports = function (env = {}, argv) {
 	const outputDir = config.webpack.output;
 	const publicPath = config.webpack.public;
 
-	const sourcePath = path.join(__dirname, sourceDir);
-	const outputPath = path.join(__dirname, outputDir, target);
+	const sourcePath = path.join(__dirname, '..', sourceDir);
+	const outputPath = path.join(__dirname, '..', outputDir, target);
 
 	const plugins = [
 		new AssetsPlugin({ filename: path.join(outputDir, target, 'assets.json') }),
@@ -24,40 +24,16 @@ module.exports = function (env = {}, argv) {
 		output: {
 			filename: '[name]-[hash].js',
 			chunkFilename: '[name]-chunk-[chunkhash].js',
-			libraryTarget: 'commonjs',
+			libraryTarget: 'umd',
 			path: outputPath,
-			publicPath: outputPath,
+			publicPath,
 			hashDigestLength: 8
 		},
 		target,
 		mode,
 		plugins,
 		module: {
-			rules: [
-				{
-					test: /\.m?js$/,
-					exclude: /(node_modules|bower_components)/,
-					use: {
-						loader: "babel-loader"
-					}
-				},
-				{
-					test: /\.css$/,
-					use: [
-						"node-style-loader",
-						{
-							loader: "css-loader",
-							options: {
-								modules: true
-							}
-						}
-					]
-				},
-				{
-					test: /\.(png|svg|jpg|gif)$/,
-					use: ["file-loader"]
-				}
-			]
+			rules: require('./rules').apply(this, arguments)
 		}
 	})
 };

@@ -65,8 +65,8 @@ module.exports = function (env = {}) {
 
 	let rules = [
 		// require('./rules/react')(env, outputPath),
-		require('./rules/babel')(env, outputPath),
-		require('./rules/css')(env, outputPath),
+		require('./rules1/babel')(env, outputPath),
+		require('./rules1/css')(env, outputPath),
 		// require('./rules/sass')(env, outputPath),
 		// require('./rules/scss')(env, outputPath),
 		// require('./rules/url-fonts')(env, outputPath),
