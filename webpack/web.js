@@ -1,41 +1,25 @@
-const config = require("config");
-const path = require("path");
-const AssetsPlugin = require('assets-webpack-plugin');
+const config = require('config');
+const webpack = require('webpack');
+const merge = require('webpack-merge');
+
+const __webpack_hmr = config.webpack.__webpack_hmr;
+const heartbeat = config.webpack.heartbeat;
 
 module.exports = function (env = {}, argv) {
 	const {target} = env;
 	const {mode} = argv;
 
-	const __webpack_hmr = config.webpack.__webpack_hmr;
-	const heartbeat = config.webpack.heartbeat;
-	const sourceDir = config.webpack.source;
-	const outputDir = config.webpack.output;
-	const publicPath = config.webpack.public[target];
+	const specific = {
+		plugins: [
+			// mode === 'development'? new webpack.HotModuleReplacementPlugin({multiStep: true}): undefined
+		]
+	};
 
-	const sourcePath = path.join(__dirname, '..', sourceDir);
-	const outputPath = path.join(__dirname, '..', outputDir, target);
+	const config = merge(require('./common').apply(this, arguments), specific);
 
-	const plugins = [
-		new AssetsPlugin({filename: path.join(outputDir, target, 'assets.json')}),
-	];
+	if (mode === 'development') {
+		// config.entry.unshift(`webpack-hot-middleware/client?path=${__webpack_hmr}&timeout=${heartbeat}&name=${target}&reload=true&dynamicPublicPath=true`);
+	}
 
-	return ({
-		entry: [
-			`${sourcePath}/${target}.js`
-		],
-		output: {
-			filename: '[name]-[hash].js',
-			chunkFilename: '[name]-chunk-[chunkhash].js',
-			libraryTarget: 'umd',
-			path: outputPath,
-			publicPath,
-			hashDigestLength: 8
-		},
-		target,
-		mode,
-		plugins,
-		module: {
-			rules: require('./rules').apply(this, arguments)
-		}
-	})
+	return (config);
 };

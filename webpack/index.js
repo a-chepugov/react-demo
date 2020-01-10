@@ -14,65 +14,6 @@ module.exports = function (env = {}) {
 	const publicPath = config.webpack.public;
 	const sourcePath = config.webpack.source;
 
-	const entry = (({target, mode}) => {
-		switch (target) {
-			case 'web': {
-				const entry = {
-					index: [
-						`../${sourcePath}/entry-web.js`
-					]
-				};
-
-				if (mode === 'development') {
-					// entry.index.unshift(`webpack-hot-middleware/client?path=${__webpack_hmr}&timeout=${heartbeat}&name=${target}&reload=true&dynamicPublicPath=true`);
-				}
-				return entry;
-			}
-			case 'node': {
-				return {
-					index: [
-						`../${sourcePath}/entry-node.js`
-					]
-				};
-			}
-		}
-	})(env);
-
-	const output = (({target}) => {
-		switch (target) {
-			case 'web': {
-				return {
-					filename: '[name].js',
-					// filename: '[name]-[hash].js',
-					// chunkFilename: '[name]-chunk-[chunkhash].js',
-					path: outputPath,
-					publicPath,
-					hashDigestLength: 8
-				};
-			}
-			case 'node': {
-				return {
-					filename: '[name].js',
-					// filename: '[name]-[hash].js',
-					// chunkFilename: '[name]-chunk-[chunkhash]-chunk.js',
-					path: outputPath,
-					libraryTarget: 'commonjs2',
-					hashDigestLength: 8
-				};
-			}
-		}
-	})(env);
-
-	let rules = [
-		// require('./rules/react')(env, outputPath),
-		require('./rules1/babel')(env, outputPath),
-		require('./rules1/css')(env, outputPath),
-		// require('./rules/sass')(env, outputPath),
-		// require('./rules/scss')(env, outputPath),
-		// require('./rules/url-fonts')(env, outputPath),
-		// require('./rules/url-images')(env, outputPath),
-		// require('./rules/raw')(env, outputPath),
-	];
 	//
 	// const MomentLocalesPlugins = require('moment-locales-webpack-plugin');
 	//
