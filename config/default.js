@@ -1,5 +1,7 @@
 const packageJson = require('../package.json');
 
+const output = 'build';
+
 module.exports = {
 	app: {
 		name: packageJson.name,
@@ -7,13 +9,16 @@ module.exports = {
 		description: packageJson.description,
 	},
 	webpack: {
-		public: '/scripts/', // Обязательно `/` в конце (для файлов типа chunk)
+		source: 'react',
+		output,
+		public: {
+			web: '/scripts/', // Обязательно `/` в конце (для файлов типа chunk)
+			node: __dirname + '/../' + output +'/node'
+		}, // Обязательно `/` в конце (для файлов типа chunk)
 		__webpack_hmr: '__webpack_hmr',
 		heartbeat: 3000,
-		source: 'react',
-		output: 'build',
 	},
 	server: {
-		port: 8080,
+		port: 8000,
 	}
 };

@@ -3,30 +3,32 @@ const path = require("path");
 const AssetsPlugin = require('assets-webpack-plugin');
 
 module.exports = function (env = {}, argv) {
-	const { target } = env;
-	const { mode } = argv;
+	const {target} = env;
+	const {mode} = argv;
 
 	const __webpack_hmr = config.webpack.__webpack_hmr;
 	const heartbeat = config.webpack.heartbeat;
 	const sourceDir = config.webpack.source;
 	const outputDir = config.webpack.output;
-	const publicPath = config.webpack.public;
+	const publicPath = config.webpack.public[target];
 
 	const sourcePath = path.join(__dirname, '..', sourceDir);
 	const outputPath = path.join(__dirname, '..', outputDir, target);
 
 	const plugins = [
-		new AssetsPlugin({ filename: path.join(outputDir, target, 'assets.json') }),
+		new AssetsPlugin({filename: path.join(outputDir, target, 'assets.json')}),
 	];
 
 	return ({
-		entry: `${sourcePath}/${target}.js`,
+		entry: [
+			`${sourcePath}/${target}.js`
+		],
 		output: {
 			filename: '[name]-[hash].js',
 			chunkFilename: '[name]-chunk-[chunkhash].js',
 			libraryTarget: 'commonjs',
 			path: outputPath,
-			publicPath: outputPath,
+			publicPath,
 			hashDigestLength: 8
 		},
 		target,

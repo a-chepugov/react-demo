@@ -4,21 +4,19 @@ const path = require('path');
 
 const port = config.server.port;
 const outputDir = config.webpack.output;
-const public = config.webpack.public;
+const publicWeb = config.webpack.public.web;
 
 const app = express();
 app.disable('x-powered-by');
 
-app.use(public, express.static(`./${outputDir}/web/`));
+app.use(publicWeb, express.static(`./${outputDir}/web/`));
 
 const assetsPathNode = path.join('..', outputDir, 'node', 'assets.json');
 const assetsPathWeb = path.join('..', outputDir, 'web', 'assets.json');
-
 const assetsNode = require(assetsPathNode);
 const assetsWeb = require(assetsPathWeb);
 
 app.use(express.Router());
-
 require('./routes')(app, require(assetsNode.main.js), assetsWeb);
 
 app.listen(port, () => {
