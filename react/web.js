@@ -12,7 +12,7 @@ const app = (url, context, store) =>
 		<BrowserRouter context={context}>
 			<Routes />
 		</BrowserRouter>
-	</Provider >
+	</Provider>
 
 export function render(url, context, rootSelectore) {
 	const store = configureStore(context);

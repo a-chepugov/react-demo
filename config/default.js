@@ -13,8 +13,8 @@ module.exports = {
 		output,
 		public: {
 			web: '/scripts/', // Обязательно `/` в конце (для файлов типа chunk)
-			node: __dirname + '/../' + output +'/node'
-		}, // Обязательно `/` в конце (для файлов типа chunk)
+			node: __dirname + '/../' + output + '/node'
+		},
 		__webpack_hmr: '__webpack_hmr',
 		heartbeat: 3000,
 	},
