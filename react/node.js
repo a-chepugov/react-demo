@@ -7,7 +7,7 @@ import { StaticRouter } from "react-router-dom";
 import Routes from "./routes";
 import configureStore from './store/configureStore'
 
-const app = (url, context, store, assets) =>
+const app = ( url, context, store, assets ) =>
 	<html>
 		<body>
 			<div id="app">
@@ -18,20 +18,21 @@ const app = (url, context, store, assets) =>
 				</Provider >
 			</div>
 			<script src={assets.main.js}></script>
-			<script dangerouslySetInnerHTML={({__html: "hydrate(undefined, {}, '#app')"})}></script>
+			<script dangerouslySetInnerHTML={( { __html: "hydrate(undefined, {}, '#app')" } )}></script>
 		</body>
 	</html>
 
-export function renderToString(url, context, assets) {
-	const store = configureStore(context);
-	const App = app(url, context, store, assets);
-	return ReactDOMServer.renderToString(App)
+export function createApp ( url, context, assets ) {
+	const store = configureStore( context );
+	return app( url, context, store, assets );
 }
 
-export function renderToNodeStream(url, context, assets) {
-	const store = configureStore(context);
-	const App = app(url, context, store, assets);
-	return ReactDOMServer.renderToNodeStream(App)
+export function renderToString ( url, context, assets ) {
+	const App = createApp( url, context, assets );
+	return ReactDOMServer.renderToString( App )
 }
 
-export default renderToNodeStream;
+export function renderToNodeStream ( url, context, assets ) {
+	const App = createApp( url, context, assets );
+	return ReactDOMServer.renderToNodeStream( App )
+}
