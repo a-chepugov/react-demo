@@ -11,10 +11,12 @@ const Cell = require('../../helpers/Cell');
 
 const assetsPathNode = path.join('../..', outputDir, 'node', 'assets.json');
 const assetsPathWeb = path.join('../..', outputDir, 'web', 'assets.json');
-const assetsNode = require(assetsPathNode);
-const assetsWeb = require(assetsPathWeb);
+const assets = {
+	node: require(assetsPathNode),
+	web: require(assetsPathWeb),
+};
 
-const ssr = require(assetsNode.main.js)
+const ssr = require(assets.node.main.js)
 
 module.exports = (app) => {
 	app.use(publicWeb, express.static(`./${outputDir}/web/`));
@@ -22,5 +24,5 @@ module.exports = (app) => {
 	app
 		.get('/_', (request, response) => response.send(config.app))
 
-		react(app, new Cell(ssr), new Cell(assetsWeb))
+		react(app, new Cell(ssr), new Cell(assets))
 };
