@@ -5,9 +5,6 @@ const webpack = require( 'webpack' );
 const webpackDevMiddleware = require( 'webpack-dev-middleware' );
 const webpackHotMiddleware = require( 'webpack-hot-middleware' );
 
-const express = require( 'express' );
-
-
 const Cell = require( '../../helpers/Cell' );
 const react = require( '../controllers/react' );
 
@@ -29,52 +26,33 @@ module.exports = ( app, assetsPaths ) => {
 
 	const webDevMiddleware = webpackDevMiddleware( webCompiler, { hot: true, stats: { colors: true }, writeToDisk: false, historyApiFallback: true, lazy: false, HotModuleReplacement: true, publicPath: publicWeb, } );
 	const nodeDevMiddleware = webpackDevMiddleware( nodeCompiler, { hot: true, stats: { colors: true }, writeToDisk: false, historyApiFallback: true, lazy: false, HotModuleReplacement: true, serverSideRender: true } );
-
+	const webHotMiddleware = webpackHotMiddleware( webCompiler, { log: console.log, path: `${publicWeb}${__webpack_hmr}`, heartbeat } );
 	app.use( nodeDevMiddleware );
 	app.use( webDevMiddleware );
-
+	app.use( webHotMiddleware );
 
 	const initSsr = ( appCell, assertsCell ) =>
 		bundlesReady( webDevMiddleware, nodeDevMiddleware )
 			.then( ( response ) => {
-				try {
+				delete require.cache[path.resolve( assetsPaths.node )];
+				delete require.cache[path.resolve( assetsPaths.web )];
 
-					// @todo перечитать
-					const assets = {
-						node: require( assetsPaths.node ),
-						web: require( assetsPaths.web ),
-					}
-					assertsCell.set( assets )
-
-					let ssrScriptString = nodeDevMiddleware.fileSystem.readFileSync( assets.node.main.js, 'utf8' );
-					let ssrScript = req( ssrScriptString );
-					appCell.set( ssrScript );
-				} catch ( error ) {
-
+				const assets = {
+					node: require( assetsPaths.node ),
+					web: require( assetsPaths.web ),
 				}
+				assertsCell.set( assets )
 
+				let ssrScriptString = nodeDevMiddleware.fileSystem.readFileSync( assets.node.main.js, 'utf8' );
+				let ssrScript = requireFromString( ssrScriptString );
+				appCell.set( ssrScript );
 			} )
-			.catch( ( error ) => {
-				console.error( 'webpack.js:32 =>' );
-				console.error( error );
-				console.error( 'webpack.js:32 =>' );
-			} )
-
-
-	const assets = {
-		node: require( assetsPaths.node ),
-		web: require( assetsPaths.web ),
-	};
 
 	let appCell = new Cell();
-	let assertsCell = new Cell( assets );
+	let assertsCell = new Cell();
 
-	initSsr( appCell, assertsCell );
 	// Запускать переинициализацию ssr при каждом попавшем сюда запросе
 	app.use( ( request, response, next ) => initSsr( appCell, assertsCell ).catch( console.error ).then( () => next() ) );
-
-	app.use( publicWeb, express.static( `./${outputDir}/web/` ) );
-
 
 	const reactHandler = react( appCell, assertsCell );
 
