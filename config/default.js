@@ -1,4 +1,5 @@
 const packageJson = require('../package.json');
+const random = require('../helpers/random');
 
 const output = 'build';
 
@@ -19,6 +20,6 @@ module.exports = {
 		heartbeat: 3000,
 	},
 	server: {
-		port: 8000,
+		port: process.env.PORT || random(1000, 65535),
 	}
 };

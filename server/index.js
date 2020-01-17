@@ -20,5 +20,6 @@ app.use(express.Router());
 require('./routes')(app, require(assetsNode.main.js), assetsWeb);
 
 app.listen(port, () => {
+	console.log('Сервер запущен')
 	console.log(`http://localhost:${port}`)
 });

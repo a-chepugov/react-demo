@@ -1,0 +1,1 @@
+module.exports = (a = 0, b = 1) => Math.floor((Math.random() * (b - a)) + a);
