@@ -11,14 +11,14 @@ module.exports = function (env = {}, argv) {
 
 	const specific = {
 		plugins: [
-			// mode === 'development'? new webpack.HotModuleReplacementPlugin({multiStep: true}): undefined
+			mode === 'development'? new webpack.HotModuleReplacementPlugin({multiStep: true}): undefined
 		]
 	};
 
 	const config = merge(require('./common').apply(this, arguments), specific);
 
 	if (mode === 'development') {
-		// config.entry.unshift(`webpack-hot-middleware/client?path=${__webpack_hmr}&timeout=${heartbeat}&name=${target}&reload=true&dynamicPublicPath=true`);
+		config.entry.unshift(`webpack-hot-middleware/client?path=${__webpack_hmr}&timeout=${heartbeat}&name=${target}&reload=true&dynamicPublicPath=true`);
 	}
 
 	return (config);
