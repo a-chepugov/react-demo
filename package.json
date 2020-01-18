@@ -20,11 +20,8 @@
     "webpack:node:development:watch": "webpack --config webpack.config.js --env.target=node --mode=development --watch",
     "build": "WEBPACK_MODE=${NODE_ENV} npm run webpack:all",
     "start": "node index.js",
-    "start:development": "NODE_ENV=development node index.js",
-    "start:nodemon": "nodemon --delay 1 index.js",
-    "start:supervisor": "supervisor index.js",
-    "start:pm2": "pm2 start index.js",
-    "start:forever": "forever --watch --killTree index.js",
+    "server:development": "NODE_ENV=development npm run start",
+    "server:nodemon": "NODE_ENV=development nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -45,11 +42,8 @@
   "devDependencies": {
     "eslint": "^5.0.1",
     "eslint-config-wikimedia": "^0.14.1",
-    "forever": "^2.0.0",
     "jest": "^24.9.0",
     "nodemon": "^2.0.2",
-    "pm2": "^4.2.1",
-    "supervisor": "^0.12.0",
     "webpack-bundle-analyzer": "^2.13.1",
     "webpack-dev-middleware": "^3.7.0",
     "webpack-hot-middleware": "^2.19.1"
