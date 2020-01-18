@@ -1,13 +1,9 @@
 * webpack
-** rework config
-** add plugins from vue and dom-react
-** add helmet
-** hot reload 
+** env.target -> target
 
-* babel
-** move config to webpack
-** remove babelrc
+* react
+** add helmet
 
 * Docker
 ** create config
-** sort package json dependensies sections 
+** sort package json dependensies sections  dependensies -> optDependensies
