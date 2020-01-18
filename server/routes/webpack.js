@@ -24,8 +24,8 @@ module.exports = ( app, assetsPaths ) => {
 	const webCompiler = webpack( webWebpackConfig );
 	const nodeCompiler = webpack( nodeWebpackConfig );
 
-	const webDevMiddleware = webpackDevMiddleware( webCompiler, { hot: true, stats: { colors: true }, writeToDisk: false, historyApiFallback: true, lazy: false, HotModuleReplacement: true, publicPath: publicWeb, } );
-	const nodeDevMiddleware = webpackDevMiddleware( nodeCompiler, { hot: true, stats: { colors: true }, writeToDisk: false, historyApiFallback: true, lazy: false, HotModuleReplacement: true, serverSideRender: true } );
+	const webDevMiddleware = webpackDevMiddleware( webCompiler, { hot: true, stats: false, writeToDisk: false, historyApiFallback: true, lazy: false, HotModuleReplacement: true, publicPath: publicWeb, } );
+	const nodeDevMiddleware = webpackDevMiddleware( nodeCompiler, { hot: true, stats: false, writeToDisk: false, historyApiFallback: true, lazy: false, HotModuleReplacement: true, serverSideRender: true } );
 	const webHotMiddleware = webpackHotMiddleware( webCompiler, { log: console.log, path: `${publicWeb}${__webpack_hmr}`, heartbeat } );
 	app.use( nodeDevMiddleware );
 	app.use( webDevMiddleware );
@@ -34,14 +34,11 @@ module.exports = ( app, assetsPaths ) => {
 	const initSsr = ( appCell, assertsCell ) =>
 		bundlesReady( webDevMiddleware, nodeDevMiddleware )
 			.then( ( response ) => {
-				delete require.cache[path.resolve( assetsPaths.node )];
-				delete require.cache[path.resolve( assetsPaths.web )];
-
 				const assets = {
-					node: require( assetsPaths.node ),
-					web: require( assetsPaths.web ),
-				}
-				assertsCell.set( assets )
+					node: JSON.parse( fs.readFileSync( path.join( __dirname, assetsPaths.node ), 'utf8' ) ),
+					web: JSON.parse( fs.readFileSync( path.join( __dirname, assetsPaths.web ), 'utf8' ) ),
+				};
+				assertsCell.set( assets );
 
 				let ssrScriptString = nodeDevMiddleware.fileSystem.readFileSync( assets.node.main.js, 'utf8' );
 				let ssrScript = requireFromString( ssrScriptString );
