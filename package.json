@@ -10,18 +10,17 @@
     "express"
   ],
   "scripts": {
-    "webpack": "webpack --env.target=${WEBPACK_TARGET} --mode=${WEBPACK_MODE} --progress",
+    "webpack": "webpack --target=${WEBPACK_TARGET} --mode=${WEBPACK_MODE} --progress=${WEBPACK_PROGRESS} --watch=${WEBPACK_WATCH}",
     "webpack:web": "WEBPACK_TARGET=web WEBPACK_MODE=${NODE_ENV} npm run webpack",
     "webpack:node": "WEBPACK_TARGET=node WEBPACK_MODE=${NODE_ENV} npm run webpack",
     "webpack:all": "echo \"webpack:web webpack:node\" | xargs -t -P2 -n1 npm run",
     "webpack:web:development": "NODE_ENV=development npm run webpack:web",
     "webpack:node:development": "NODE_ENV=development npm run webpack:node",
-    "webpack:web:development:watch": "webpack --config webpack.config.js --env.target=web --mode=development --watch",
-    "webpack:node:development:watch": "webpack --config webpack.config.js --env.target=node --mode=development --watch",
-    "build": "WEBPACK_MODE=${NODE_ENV} npm run webpack:all",
+    "webpack:web:development:watch": "WEBPACK_WATCH=true WEBPACK_PROGRESS=true npm run webpack:web:development",
+    "webpack:node:development:watch": "WEBPACK_WATCH=true WEBPACK_PROGRESS=true npm run webpack:node:development",
     "start": "node index.js",
     "server:development": "NODE_ENV=development npm run start",
-    "server:nodemon": "NODE_ENV=development nodemon index.js",
+    "server:development:nodemon": "NODE_ENV=development nodemon --ignore build index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {

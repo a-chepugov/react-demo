@@ -6,8 +6,7 @@ const __webpack_hmr = config.webpack.__webpack_hmr;
 const heartbeat = config.webpack.heartbeat;
 
 module.exports = function (env = {}, argv) {
-	const {target} = env;
-	const {mode} = argv;
+	const {mode, target} = argv;
 
 	const specific = {
 		plugins: [

@@ -18,8 +18,8 @@ const bundlesReady = ( ...DevMiddlewares ) => Promise.all( DevMiddlewares.map( (
 const requireFromString = require( 'require-from-string' );
 
 module.exports = ( app, assetsPaths ) => {
-	const webWebpackConfig = require( '../../webpack.config.js' )( { target: 'web' }, { mode: 'development' } );
-	const nodeWebpackConfig = require( '../../webpack.config.js' )( { target: 'node' }, { mode: 'development' } );
+	const webWebpackConfig = require( '../../webpack.config.js' )( {}, { mode: 'development', target: 'web' } );
+	const nodeWebpackConfig = require( '../../webpack.config.js' )( {}, { mode: 'development', target: 'node' } );
 
 	const webCompiler = webpack( webWebpackConfig );
 	const nodeCompiler = webpack( nodeWebpackConfig );

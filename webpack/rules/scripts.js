@@ -1,5 +1,5 @@
 module.exports = function (env = {}, argv) {
-	const {target} = env;
+	const {target} = argv;
 
 	let query;
 
