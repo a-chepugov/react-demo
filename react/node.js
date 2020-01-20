@@ -18,7 +18,7 @@ const app = ( url, context, store, assets ) =>
 				</Provider >
 			</div>
 			<script src={assets.main.js}></script>
-			<script dangerouslySetInnerHTML={( { __html: "hydrate(undefined, {}, '#app')" } )}></script>
+			<script dangerouslySetInnerHTML={( { __html: "hydrate(document.location.href, {}, '#app')" } )}></script>
 		</body>
 	</html>
 

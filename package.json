@@ -20,7 +20,7 @@
     "webpack:node:development:watch": "WEBPACK_WATCH=true WEBPACK_PROGRESS=true npm run webpack:node:development",
     "start": "node index.js",
     "server:development": "NODE_ENV=development npm run start",
-    "server:development:nodemon": "NODE_ENV=development nodemon --ignore build index.js",
+    "server:development:nodemon": "NODE_ENV=development nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
