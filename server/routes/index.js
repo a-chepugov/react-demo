@@ -1,6 +1,8 @@
 const config = require( 'config' );
 const path = require( 'path' );
 
+const react = require( './react' );
+
 const outputDir = config.webpack.output;
 
 const assetsPaths = {
@@ -12,7 +14,9 @@ module.exports = ( app ) => {
 	app
 		.get( '/_', ( request, response ) => response.send( config.app ) )
 
-	process.env.NODE_ENV === 'development' ?
-		require( './webpack' )( app, assetsPaths ) :
-		require( './react' )( app, assetsPaths );
+	const bundlesCells = process.env.NODE_ENV === 'development' ?
+		require( '../middlewares/webpack' )( app, assetsPaths ) :
+		require( '../middlewares/static' )( app, assetsPaths );
+
+	react( app )( bundlesCells );
 };

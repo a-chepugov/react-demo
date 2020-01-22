@@ -6,7 +6,6 @@ const webpackDevMiddleware = require( 'webpack-dev-middleware' );
 const webpackHotMiddleware = require( 'webpack-hot-middleware' );
 
 const Cell = require( '../../helpers/Cell' );
-const react = require( '../controllers/react' );
 
 const __webpack_hmr = config.webpack.__webpack_hmr;
 const heartbeat = config.webpack.heartbeat;
@@ -51,10 +50,5 @@ module.exports = ( app, assetsPaths ) => {
 	// Запускать переинициализацию ssr при каждом попавшем сюда запросе
 	app.use( ( request, response, next ) => initSsr( appCell, assertsCell ).catch( console.error ).then( () => next() ) );
 
-	const reactHandler = react( appCell, assertsCell );
-
-	app
-		.get( '*', ( request, response ) =>
-			reactHandler( request.originalUrl, {} )
-				.pipe( response ) )
+	return ({ appCell, assertsCell });
 };
