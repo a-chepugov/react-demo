@@ -6,7 +6,8 @@ module.exports = ( app ) =>
 
 		app
 			.get( '*', ( request, response ) => {
-				reactHandler( request.originalUrl, {} )
+				const context = {};
+				reactHandler.renderToNodeStream( request.originalUrl, context )
 					.pipe( response )
 			} )
 	};

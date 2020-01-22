@@ -14,7 +14,7 @@ const app = ( url, context, store ) =>
 		</BrowserRouter>
 	</Provider>
 
-export function createApp ( url, context ) {
+function createApp ( url, context ) {
 	const store = configureStore( context );
 	return app( url, context, store );
 }

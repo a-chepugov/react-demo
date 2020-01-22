@@ -10,19 +10,17 @@ import configureStore from './store/configureStore'
 const app = ( url, context, store, assets ) =>
 	<html>
 		<body>
-			<div id="app">
-				<Provider store={store}>
-					<StaticRouter context={context} location={url}>
-						<Routes />
-					</StaticRouter>
-				</Provider >
-			</div>
+			<Provider store={store}>
+				<StaticRouter context={context} location={url}>
+					<Routes />
+				</StaticRouter>
+			</Provider >
 			<script src={assets.main.js}></script>
-			<script dangerouslySetInnerHTML={( { __html: "hydrate(document.location.href, {}, '#app')" } )}></script>
+			<script dangerouslySetInnerHTML={( { __html: "hydrate(document.location.href, {}, 'body')" } )}></script>
 		</body>
 	</html>
 
-export function createApp ( url, context, assets ) {
+function createApp ( url, context, assets ) {
 	const store = configureStore( context );
 	return app( url, context, store, assets );
 }
