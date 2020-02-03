@@ -7,7 +7,7 @@ on:
 
 jobs:
   echo:
-    runs-on: ubuntu-latest
+    runs-on: [ubuntu-latest]
     steps:
     - uses: actions/checkout@v2
     - name: Run a one-line script
@@ -17,7 +17,8 @@ jobs:
         echo Add other actions to build,
         echo test, and deploy your project.
   test:
-    runs-on: linux
+    runs-on: [ubuntu-latest]
+    needs: [echo]
     steps:
       - name: install
         run: npm install
