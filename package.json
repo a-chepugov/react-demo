@@ -21,7 +21,7 @@
     "start": "node index.js",
     "server:development": "NODE_ENV=development npm run start",
     "server:development:nodemon": "NODE_ENV=development nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 0"
   },
   "dependencies": {
     "config": "^3.2.5",
