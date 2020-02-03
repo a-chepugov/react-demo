@@ -3,7 +3,7 @@ name: basic
 on: 
   push:
     branches: 
-      - a-chepugov-patch-1
+      - master
 
 jobs:
   echo:
@@ -16,7 +16,6 @@ jobs:
       run: |
         echo Add other actions to build,
         echo test, and deploy your project.
-
   test:
     runs-on: linux
     steps:
@@ -24,6 +23,3 @@ jobs:
         run: npm install
       - name: run tests
         run: npm test
-    
-    
-    
